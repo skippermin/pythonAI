@@ -1,0 +1,133 @@
+import matplotlib.pyplot as plt
+#matplotlib.pyplot 각각의 함수를 사용해서 간편하게 그래프를 그리면서, 변화를 주는 모듈을 가져왔다.
+import math
+#수학적 함수를 이용하기 위한 math 모듈를 불러왔다.
+
+#C의 분류를 하고 난 후의 데이터
+K_2 = [1,0,0,0]
+#C를 복용하지 않았을때의 나머지 부분을 나타낸 것이다.
+#완치 되었는지 안되었는지 구분하기 위한 리스트를 나열하였다.
+#1 = Good을 의미하고, 0 = Bad를 의미한다.
+#Good의 의미는 '완치 되었다.'는 뜻이고, Bad는 '완치되지 않고 죽었다.'라는 뜻이다.
+
+A_2 = [1.,1.,0.,0.]
+#1 = o(복용 했다)을 의미하고, 0 = x(복용하지 않았다.)를 의미한다. 
+#o의 의미는 A약을 복용했다는 뜻이고, x의 의미는 A약을 복용하지 않았다 라는 뜻이다.
+
+B_2 = [1.,0.,1.,0.]
+#1 = o(복용 했다)을 의미하고, 0 = x(복용하지 않았다.)를 의미한다. 
+#o의 의미는 B약을 복용했다는 뜻이고, x의 의미는 B약을 복용하지 않았다 라는 뜻이다.
+
+EntropySSox = round((-(1/4) * math.log2(1/4)) + (-(3/4) * math.log2(3/4)),6)
+#EntropySSox = (-(1/4) * math.log2(1/4)) + (-(3/4) * math.log2(3/4))
+#SSox의 전체 엔트로피를 구하는 공식
+#전체 약의 완치 했을때, 죽었을 때의 복잡도를 엔트로피 계산으로 측정한다.
+#복잡도가 0 : 적을수록 정보 획득률은 좋아지고, 복잡도가 1 : 많을수록 정보획득률은 나쁘다.
+#복잡도를 계산하는 공식
+#전체 데이터 4개 중 클래스가 G인 경우는 1 B인 경우는 3개이다.
+
+EntropyASSo = round((-(1/2) * math.log2(1/2)) + (-(1/2) * math.log2(1/2)), 6)
+#A약을 복용 했을 때 완치 했을때, 죽었을 때의 복잡도를 판별하는 것을 엔트로피 계산으로 측정한다.
+#A약을 복용 했을 때의 엔트로피 값
+
+EntropyASSx = round(0 + (-(2/2) * math.log2(2/2)),6)
+#A약을 복용하지 않았을 때 완치 했을때, 죽었을 때의 복잡도를 판별하는 것을 엔트로피 계산으로 측정한다.
+#A약을 복용하지 않았을 때의 엔트로피 값
+
+GainSSA = round(EntropySSox +(-(2/4)*EntropyASSo) + (-(2/4)*EntropyASSx),6)
+#A에 대한 정보 획득률을 나타낸다.
+#GainSA(A에 대한 정보 획득률) : 전체 엔트로피 값 + (-(A약을 복용 했을 때 비율/전체 데이터) * A약을 복용 했을 때의 엔트로피 값) + (-(A약을 복용 하지 않았을 때 비율/전체 데이터) * A약을 복용하지 않았을 때의 엔트로피 값)
+#복잡도가 0(0%)일 때면 정보 획득률은 좋아지고, 복잡도가 1(100%)일 때면 정보 획득률은 나쁘다.
+#정보 획득률 : 복잡도를 최소화 시킬수 있는 정보가치를 의미한다.
+
+EntropyBSSo = round((-(1/2) * math.log2(1/2)) + (-(1/2) * math.log2(1/2)), 6)
+#B약을 복용 했을 때 완치 했을때, 죽었을 때의 복잡도를 판별하는 것을 엔트로피 계산으로 측정한다.
+#B약을 복용 했을 때의 엔트로피 값
+
+EntropyBSSx = round(0 + (-(2/2) * math.log2(2/2)),6)
+#B약을 복용하지 않았을 때 완치 했을때, 죽었을 때의 복잡도를 판별하는 것을 엔트로피 계산으로 측정한다.
+#B약을 복용하지 않았을 때의 엔트로피 값
+
+GainSSB = round(EntropySSox +(-(2/4)*EntropyBSSo) + (-(2/4)*EntropyBSSx),6)
+#B에 대한 정보 획득률을 나타낸다.
+#GainSSB(B에 대한 정보 획득률) : 전체 엔트로피 값 + (-(B약을 복용 했을 때 비율/전체 데이터)*B약을 복용 했을 때의 엔트로피 값)+(-(B약을 복용 하지 않았을 때 비율/전체 데이터)*B약을 복용하지 않았을 때의 엔트로피 값)
+#복잡도가 0(0%)일 때면 정보 획득률은 좋아지고, 복잡도가 1(100%)일 때면 정보 획득률은 나쁘다.
+#정보 획득률 : 복잡도를 최소화 시킬수 있는 정보가치를 의미한다.
+
+print("GainSSA : ",GainSSA)
+print("GainSSB : ",GainSSB)
+
+if(GainSSA>GainSSB):
+    Childnode='A'
+elif(GainSSB>GainSSA):
+    Childnode='B'
+elif(GainSSB==GainSSA):
+    Childnode='B'
+
+K_3 = [1,0]
+#C를 복용하지 않고, B의 약을 먹은 상태의 부분을 나타낸 것이다.
+#완치 되었는지 안되었는지 구분하기 위한 리스트를 나열하였다.
+#1 = Good을 의미하고, 0 = Bad를 의미한다.
+#Good의 의미는 '완치 되었다.'는 뜻이고, Bad는 '완치되지 않고 죽었다.'라는 뜻이다.
+
+ASSSo = [1]
+#A약을 같이 먹었을 경우는 완치된다.
+#1 = o(복용 했다)을 의미하고, 0 = x(복용하지 않았다.)를 의미한다. 
+#o의 의미는 B약을 복용했다는 뜻이고, x의 의미는 B약을 복용하지 않았다 라는 뜻이다.
+
+ASSSx = [0]
+#A약을 같이 먹지 않았을 경우는 죽는다.
+#1 = o(복용 했다)을 의미하고, 0 = x(복용하지 않았다.)를 의미한다. 
+#o의 의미는 B약을 복용했다는 뜻이고, x의 의미는 B약을 복용하지 않았다 라는 뜻이다.
+
+plt.axis([0,100,0,150])
+#축의 범위를 설정한다.
+
+plt.plot(65,100,color='#00FF00',marker='o',markersize='60',linestyle='')
+#plot() 함수를 이용하여 B Node를 표시하기 위해서 그려주었다. 
+#B Node의 데이터의 위치를 지정하고, 색은 초록색, 마커는 동그란원을 뜻하는 'o' 마커 사이즈는 60으로 설정하였다.
+plt.annotate('{0}'.format(Childnode), xy=(74.7,71.7), xytext=(64.7,99.6),color = 'black', fontsize='9', arrowprops = dict(arrowstyle="-",color='black'))
+#B Node임을 알려주기 위해 annotate() 함수로 주석을 그려주었다.
+plt.annotate('Child Node',xy=(68,100),xytext=(75,99),fontsize='9',arrowprops = dict(color='black',arrowstyle="-|>"))
+#자식 노드임을 알려주기 위해서 'Child Node'라는 텍스트를 붙여주고, 3번째 노드에 연결되는 그림을 그려주었다. 
+plt.annotate('level 1',xy=(32,100),xytext=(20.21,99.3),fontsize='9',arrowprops = dict(arrowstyle="-", color='black', linestyle ='--'))
+#현재 level 1을 나타내는 텍스트를 붙여주고, B Node의 깊이를 현재 깊이가 level 1임을 알려주었다.
+plt.annotate('',xy=(56.4,71.7),xytext=(64.5,99.2),fontsize='9',arrowprops = dict(color='black',arrowstyle="-"))
+#밑에 있는 자식 노드인 A Node를 연결시키기 위해서 실선으로 선을 그려주고 3번 노드와 연결을 시켜주는 그림을 그렸다.
+
+plt.plot(76.46,66.7,color='#0080FF',marker='s',markersize='50',linestyle='')
+#plot() 함수를 이용하여 B(죽었다.)를 표시하기 위해서 그려주었다. 
+#데이터의 위치를 지정하고, 색은 하늘색, 마커는 네모을 뜻하는 's' 마커 사이즈는 50으로 설정하였다.
+plt.annotate('Bad',(75.8,66.1),fontsize='9')
+#죽었음을 보여주기 위해 annotate() 함수로 주석을 그려주었다.
+plt.annotate('O',(57.3,82),fontsize='13')
+#약을 복용하였음을 보여주기 위해 annotate() 함수로 주석을 그려주었다.
+plt.annotate('X',(72.3,82),fontsize='13')
+#약을 복용하지 않았음을 보여주기 위해 annotate() 함수로 주석을 그려주었다.
+
+plt.plot(55,67,color='#00FF00',marker='o',markersize='60',linestyle='')
+#plot() 함수를 이용하여 A Node를 표시하기 위해서 그려주었다. 
+#A Node의 데이터의 위치를 지정하고, 색은 초록색, 마커는 동그란원을 뜻하는 'o' 마커 사이즈는 60으로 설정하였다.
+plt.annotate('A', xy=(48,39.3), xytext=(54.7,66.2),color = 'black', fontsize='9', arrowprops = dict(arrowstyle="-",color='black'))
+#B Node임을 알려주기 위해 annotate() 함수로 주석을 그려주었다.
+plt.annotate('',xy=(60.7,39.4),xytext=(55.2,65.2),fontsize='9',arrowprops = dict(color='black',arrowstyle="-"))
+#Bad를 연결시키기 위해서 실선으로 선을 연결을 시켜주는 그림을 그렸다.
+plt.annotate('level 2',xy=(52,66),xytext=(20.21,65.3),fontsize='9',arrowprops = dict(arrowstyle="-", color='black', linestyle ='--'))
+#현재 level 2을 나타내는 텍스트를 붙여주고, A Node의 깊이를 현재 깊이가 level 2임을 알려주었다.
+
+plt.plot(46.2,34.5,color='#0080FF',marker='s',markersize='50',linestyle='')
+#plot() 함수를 이용하여 G(완치 되었다.)를 표시하기 위해서 그려주었다. 
+#데이터의 위치를 지정하고, 색은 하늘색, 마커는 네모을 뜻하는 's' 마커 사이즈는 50으로 설정하였다.
+plt.annotate('Good',(45.2,33.5),fontsize='9')
+#G(완치 되었다.)를 표시하기 위해 annotate() 함수로 주석을 그려주었다.
+plt.annotate('O',(48.5,47.5),fontsize='13')
+#약을 복용하였음을 보여주기 위해 annotate() 함수로 주석을 그려주었다.
+
+plt.plot(62.5,34.5,color='#0080FF',marker='s',markersize='50',linestyle='')
+#plot() 함수를 이용하여 Bad(죽었다.)를 표시하기 위해서 그려주었다. 
+#데이터의 위치를 지정하고, 색은 하늘색, 마커는 네모을 뜻하는 's' 마커 사이즈는 50으로 설정하였다.
+plt.annotate('Bad',(61.9,33.5),fontsize='9')
+#G(죽었음.)를 표시하기 위해 annotate() 함수로 주석을 그려주었다.
+plt.annotate('X',(60.5,47.5),fontsize='13')
+#약을 복용하지 않았음을 표시하기 위해 annotate() 함수로 주석을 그려주었다.
+plt.show()
